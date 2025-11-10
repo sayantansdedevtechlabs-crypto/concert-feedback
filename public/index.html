@@ -1,36 +1,188 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Concert Feedback 🎵</title>
-  <style>
-    body { font-family: Arial; text-align: center; padding: 40px; }
-    input { width: 50px; font-size: 1.2em; text-align: center; }
-    button { padding: 10px 20px; margin-top: 10px; font-size: 1em; cursor: pointer; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rate the Concert 🎵</title>
+<style>
+  :root{
+    --bg:#0f1724; --card:#0b1220; --accent:#ff6b6b; --muted:#9aa4b2; --glass: rgba(255,255,255,0.04);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg,#071027 0%, #081226 50%, #08121b 100%);
+    color:#e6eef6; display:flex; align-items:center; justify-content:center; padding:24px;
+  }
+
+  .card{
+    width:100%; max-width:720px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:14px; padding:22px; box-shadow: 0 8px 30px rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.03);
+  }
+
+  header{display:flex;gap:12px;align-items:center}
+  .logo{
+    width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#ff9a9a);
+    display:flex;align-items:center;justify-content:center;font-weight:700;color:#071220;font-size:18px;
+  }
+  h1{margin:0;font-size:20px}
+  p.lead{margin:6px 0 18px;color:var(--muted)}
+
+  .slider-wrap{display:flex;align-items:center;gap:16px}
+  input[type="range"]{flex:1;-webkit-appearance:none;height:6px;border-radius:6px;background:linear-gradient(90deg,var(--accent),#ffb3b3);outline:none}
+  input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:40px;height:40px;border-radius:50%;background:white;box-shadow:0 4px 12px rgba(0,0,0,0.4);border:6px solid rgba(255,255,255,0.9)}
+  .rating-bubble{min-width:64px;height:64px;border-radius:12px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--accent);border:1px solid rgba(255,255,255,0.03)}
+
+  .controls{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+  button{
+    background:linear-gradient(180deg,var(--accent), #ff8a8a);
+    border:none;padding:12px 18px;border-radius:10px;font-weight:700;color:#071220;cursor:pointer;
+    box-shadow:0 6px 18px rgba(255,107,107,0.16);
+  }
+  button.secondary{
+    background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);
+  }
+  .muted{color:var(--muted);font-size:14px;margin-top:12px}
+
+  .center{display:flex;align-items:center;justify-content:center}
+  .modal{
+    position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);min-width:260px;padding:18px;background:#081224;border-radius:12px;
+    box-shadow:0 20px 60px rgba(2,6,23,0.7);border:1px solid rgba(255,255,255,0.03);z-index:40;
+  }
+  .small{font-size:13px;color:var(--muted)}
+
+  /* Responsive */
+  @media (max-width:480px){
+    .rating-bubble{min-width:56px;height:56px;font-size:18px}
+    input[type="range"]::-webkit-slider-thumb{width:36px;height:36px}
+    .logo{width:48px;height:48px;font-size:16px}
+  }
+</style>
 </head>
 <body>
-  <h2>Rate the Concert (1 - 10)</h2>
-  <input type="number" id="rating" min="1" max="10">
-  <br>
-  <button onclick="submitFeedback()">Submit</button>
+  <div class="card" role="main" aria-labelledby="title">
+    <header>
+      <div class="logo" aria-hidden>🎵</div>
+      <div>
+        <h1 id="title">How was the concert?</h1>
+        <p class="lead">Slide to pick a rating from <strong>1</strong> to <strong>10</strong>. Quick and anonymous.</p>
+      </div>
+    </header>
 
-  <script>
-    async function submitFeedback() {
-      const rating = Number(document.getElementById('rating').value);
-      if (!rating || rating < 1 || rating > 10) {
-        alert('Please enter a rating between 1 and 10');
-        return;
-      }
+    <div style="margin-top:18px;">
+      <div class="slider-wrap">
+        <input id="slider" type="range" min="1" max="10" value="8" step="1" aria-label="Rating slider">
+        <div class="rating-bubble" id="bubble">8</div>
+      </div>
 
-      await fetch('/api/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      <div class="controls">
+        <button id="submitBtn">Submit rating</button>
+        <button id="resetBtn" class="secondary">Change rating</button>
+        <div style="flex:1"></div>
+        <div class="small" id="status">You have not submitted yet.</div>
+      </div>
+
+      <p class="muted" id="currentInfo">Loading current totals…</p>
+    </div>
+  </div>
+
+  <!-- thank you modal -->
+  <div id="modal" class="modal" style="display:none;text-align:center">
+    <div style="font-size:22px;font-weight:700;margin-bottom:6px" id="modalTitle">Thanks!</div>
+    <div class="small" id="modalText">Your rating has been recorded.</div>
+    <div style="height:12px"></div>
+    <button id="modalClose" style="margin-top:10px">Close</button>
+  </div>
+
+<script>
+(async function(){
+  const slider = document.getElementById('slider');
+  const bubble = document.getElementById('bubble');
+  const submitBtn = document.getElementById('submitBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const status = document.getElementById('status');
+  const currentInfo = document.getElementById('currentInfo');
+  const modal = document.getElementById('modal');
+  const modalClose = document.getElementById('modalClose');
+
+  // update bubble when slider moves
+  slider.addEventListener('input', ()=> bubble.textContent = slider.value);
+
+  // show current totals (average)
+  async function refreshTotals(){
+    try{
+      const r = await fetch('/api/total');
+      if(!r.ok) throw new Error('no totals');
+      const data = await r.json();
+      const avg = data.totalResponses ? (data.totalRating / data.totalResponses).toFixed(2) : '—';
+      currentInfo.textContent = `Current total points: ${data.totalRating} • Responses: ${data.totalResponses} • Average: ${avg}`;
+    }catch(e){
+      currentInfo.textContent = 'Totals unavailable right now.';
+    }
+  }
+
+  // store to prevent double immediate submit
+  const STORAGE_KEY = 'concert_feedback_submitted';
+  let submitted = localStorage.getItem(STORAGE_KEY) === 'true';
+
+  function setSubmittedUI(flag){
+    submitted = flag;
+    if(flag){
+      status.textContent = 'You already submitted — thanks!';
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = 0.6;
+    } else {
+      status.textContent = 'You have not submitted yet.';
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = 1;
+    }
+  }
+  setSubmittedUI(submitted);
+
+  submitBtn.addEventListener('click', async ()=>{
+    const rating = Number(slider.value);
+    if(rating < 1 || rating > 10){ alert('Please pick a rating between 1 and 10'); return; }
+
+    // immediate UI lock
+    submitBtn.disabled = true;
+    submitBtn.style.opacity = 0.6;
+    status.textContent = 'Submitting...';
+
+    try{
+      const res = await fetch('/api/submit', {
+        method:'POST',
+        headers: {'Content-Type':'application/json'},
         body: JSON.stringify({ rating })
       });
+      if(!res.ok) throw new Error('submit failed');
+      // mark submitted locally for this device (prevents accidental double-submits)
+      localStorage.setItem(STORAGE_KEY,'true');
+      setSubmittedUI(true);
 
-      alert('Thank you for your feedback!');
-      document.getElementById('rating').value = '';
+      // fetch new totals and show modal
+      await refreshTotals();
+      document.getElementById('modalTitle').textContent = 'Thank you!';
+      document.getElementById('modalText').textContent = `Your rating (${rating}) was recorded.`;
+      modal.style.display = 'block';
+
+    }catch(err){
+      alert('Could not submit. Please try again.');
+      setSubmittedUI(false);
+      console.error(err);
     }
-  </script>
+  });
+
+  resetBtn.addEventListener('click', ()=>{
+    // allow user to change rating before submitting
+    slider.value = 8; bubble.textContent = 8;
+  });
+
+  modalClose.addEventListener('click', ()=> modal.style.display = 'none');
+
+  // periodically refresh totals so attendees can see running count
+  await refreshTotals();
+  setInterval(refreshTotals, 5000);
+})();
+</script>
 </body>
 </html>
