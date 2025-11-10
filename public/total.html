@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Total Feedback</title>
+  <style>
+    body { font-family: Arial; text-align: center; padding: 40px; }
+    h2 { font-size: 2em; }
+  </style>
+</head>
+<body>
+  <h1>Concert Feedback Summary 🎶</h1>
+  <h2>Total Rating: <span id="total">0</span></h2>
+  <h3>Total Responses: <span id="count">0</span></h3>
+
+  <script>
+    async function updateTotal() {
+      const res = await fetch('/api/total');
+      const data = await res.json();
+      document.getElementById('total').innerText = data.totalRating;
+      document.getElementById('count').innerText = data.totalResponses;
+    }
+
+    setInterval(updateTotal, 2000); // refresh every 2 seconds
+    updateTotal();
+  </script>
+</body>
+</html>
