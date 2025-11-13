@@ -1,103 +1,204 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Rate the Concert 🎵</title>
+
 <style>
-  :root{
-    --bg:#0f1724; --card:#0b1220; --accent:#ff6b6b; --muted:#9aa4b2; --glass: rgba(255,255,255,0.04);
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0; min-height:100vh; font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: linear-gradient(180deg,#071027 0%, #081226 50%, #08121b 100%);
-    color:#e6eef6; display:flex; align-items:center; justify-content:center; padding:24px;
+  :root {
+    --bg: #0f1724;
+    --card: #0b1220;
+    --accent: #ff6b6b;
+    --muted: #9aa4b2;
   }
 
-  .card{
-    width:100%; max-width:720px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:14px; padding:22px; box-shadow: 0 8px 30px rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.03);
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Inter, system-ui, sans-serif;
+    background: linear-gradient(180deg, #071027 0%, #081226 50%, #08121b 100%);
+    color: #e6eef6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
   }
 
-  header{display:flex;gap:12px;align-items:center}
-  .logo{
-    width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#ff9a9a);
-    display:flex;align-items:center;justify-content:center;font-weight:700;color:#071220;font-size:18px;
+  .card {
+    width: 100%;
+    max-width: 720px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius: 14px;
+    padding: 22px;
+    box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+    border: 1px solid rgba(255,255,255,0.03);
   }
-  h1{margin:0;font-size:20px}
-  p.lead{margin:6px 0 18px;color:var(--muted)}
 
-  .slider-wrap{display:flex;align-items:center;gap:16px}
-  input[type="range"]{flex:1;-webkit-appearance:none;height:6px;border-radius:6px;background:linear-gradient(90deg,var(--accent),#ffb3b3);outline:none}
-  input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:40px;height:40px;border-radius:50%;background:white;box-shadow:0 4px 12px rgba(0,0,0,0.4);border:6px solid rgba(255,255,255,0.9)}
-  .rating-bubble{min-width:64px;height:64px;border-radius:12px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;color:var(--accent);border:1px solid rgba(255,255,255,0.03)}
-
-  .controls{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
-  button{
-    background:linear-gradient(180deg,var(--accent), #ff8a8a);
-    border:none;padding:12px 18px;border-radius:10px;font-weight:700;color:#071220;cursor:pointer;
-    box-shadow:0 6px 18px rgba(255,107,107,0.16);
+  header { display: flex; gap: 12px; align-items: center; }
+  .logo {
+    width: 56px; height: 56px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), #ff9a9a);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: #071220; font-size: 18px;
   }
-  button.secondary{
-    background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);
-  }
-  .muted{color:var(--muted);font-size:14px;margin-top:12px}
+  h1 { margin: 0; font-size: 20px; }
+  p.lead { margin: 6px 0 18px; color: var(--muted); }
 
-  .center{display:flex;align-items:center;justify-content:center}
-  .modal{
-    position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);min-width:260px;padding:18px;background:#081224;border-radius:12px;
-    box-shadow:0 20px 60px rgba(2,6,23,0.7);border:1px solid rgba(255,255,255,0.03);z-index:40;
+  .slider-wrap { display: flex; align-items: center; gap: 16px; }
+  input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    height: 6px;
+    border-radius: 6px;
+    background: linear-gradient(90deg, var(--accent), #ffb3b3);
+    outline: none;
   }
-  .small{font-size:13px;color:var(--muted)}
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    border: 6px solid rgba(255,255,255,0.9);
+  }
 
-  /* Responsive */
-  @media (max-width:480px){
-    .rating-bubble{min-width:56px;height:56px;font-size:18px}
-    input[type="range"]::-webkit-slider-thumb{width:36px;height:36px}
-    .logo{width:48px;height:48px;font-size:16px}
+  /* 🍑 Peach Bubble */
+  .rating-bubble {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: transform 0.2s ease, box-shadow 0.4s ease;
+  }
+
+  .peach {
+    font-size: 54px;
+    line-height: 1;
+    transition: filter 0.4s ease;
+  }
+
+  .rating-count {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 800;
+    font-size: 20px;
+    color: #3a0b00;
+    text-shadow: 0 0 4px rgba(255,255,255,0.8);
+    pointer-events: none;
+  }
+
+  /* Dynamic glow classes (1–10) */
+  .glow-1  { box-shadow: 0 0 8px rgba(255, 60, 60, 0.3);  filter: drop-shadow(0 0 6px rgba(255, 60, 60, 0.4)); }
+  .glow-2  { box-shadow: 0 0 10px rgba(255, 90, 60, 0.4); filter: drop-shadow(0 0 8px rgba(255, 90, 60, 0.5)); }
+  .glow-3  { box-shadow: 0 0 12px rgba(255, 120, 70, 0.5); filter: drop-shadow(0 0 10px rgba(255, 120, 70, 0.6)); }
+  .glow-4  { box-shadow: 0 0 14px rgba(255, 140, 70, 0.6); filter: drop-shadow(0 0 12px rgba(255, 140, 70, 0.7)); }
+  .glow-5  { box-shadow: 0 0 16px rgba(255, 160, 80, 0.7); filter: drop-shadow(0 0 14px rgba(255, 160, 80, 0.8)); }
+  .glow-6  { box-shadow: 0 0 18px rgba(255, 180, 100, 0.8); filter: drop-shadow(0 0 15px rgba(255, 180, 100, 0.9)); }
+  .glow-7  { box-shadow: 0 0 20px rgba(255, 200, 120, 0.9); filter: drop-shadow(0 0 16px rgba(255, 200, 120, 1)); }
+  .glow-8  { box-shadow: 0 0 24px rgba(255, 220, 140, 1);   filter: drop-shadow(0 0 18px rgba(255, 220, 140, 1)); }
+  .glow-9  { box-shadow: 0 0 26px rgba(255, 235, 160, 1);   filter: drop-shadow(0 0 20px rgba(255, 235, 160, 1)); }
+  .glow-10 { box-shadow: 0 0 30px rgba(255, 255, 180, 1);   filter: drop-shadow(0 0 24px rgba(255, 255, 180, 1)); }
+
+  @keyframes pop {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+  .peach.pop { animation: pop 0.4s ease; }
+
+  /* Buttons */
+  .controls { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  button {
+    padding: 10px 18px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  button:hover { transform: translateY(-2px); }
+  button:active { transform: translateY(0); }
+
+  button.primary {
+    background: linear-gradient(180deg, var(--accent), #ff8a8a);
+    color: #071220;
+  }
+  button.secondary {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--muted);
+  }
+
+  .muted { color: var(--muted); font-size: 14px; margin-top: 12px; }
+
+  .modal {
+    position: fixed;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    background: #081224;
+    padding: 18px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: none;
+  }
+
+  @media (max-width:480px) {
+    .rating-bubble { width: 56px; height: 56px; }
+    .peach { font-size: 46px; }
   }
 </style>
 </head>
+
 <body>
-  <div class="card" role="main" aria-labelledby="title">
+  <div class="card">
     <header>
-      <div class="logo" aria-hidden>🎵</div>
+      <div class="logo">🎵</div>
       <div>
-        <h1 id="title">How was the concert?</h1>
-        <p class="lead">Slide to pick a rating from <strong>1</strong> to <strong>10</strong>. Quick and anonymous.</p>
+        <h1>How was the concert?</h1>
+        <p class="lead">Slide to pick a rating from 1 to 10. Quick and anonymous.</p>
       </div>
     </header>
 
-    <div style="margin-top:18px;">
+    <div style="margin-top: 18px;">
       <div class="slider-wrap">
         <input id="slider" type="range" min="1" max="10" value="8" step="1" aria-label="Rating slider">
-        <div class="rating-bubble" id="bubble">8</div>
+        <div class="rating-bubble" id="bubble">
+          <span class="peach">🍑</span>
+          <span class="rating-count" id="rating-count">8</span>
+        </div>
       </div>
 
       <div class="controls">
-        <button id="submitBtn">Submit rating</button>
+        <button id="submitBtn" class="primary">Submit rating</button>
         <button id="resetBtn" class="secondary">Change rating</button>
         <div style="flex:1"></div>
-        <div class="small" id="status">You have not submitted yet.</div>
+        <div class="muted" id="status">You have not submitted yet.</div>
       </div>
 
       <p class="muted" id="currentInfo">Loading current totals…</p>
     </div>
   </div>
 
-  <!-- thank you modal -->
-  <div id="modal" class="modal" style="display:none;text-align:center">
+  <div id="modal" class="modal">
     <div style="font-size:22px;font-weight:700;margin-bottom:6px" id="modalTitle">Thanks!</div>
-    <div class="small" id="modalText">Your rating has been recorded.</div>
+    <div class="muted" id="modalText">Your rating has been recorded.</div>
     <div style="height:12px"></div>
-    <button id="modalClose" style="margin-top:10px">Close</button>
+    <button id="modalClose" class="primary">Close</button>
   </div>
 
 <script>
 (async function(){
   const slider = document.getElementById('slider');
   const bubble = document.getElementById('bubble');
+  const peach = bubble.querySelector('.peach');
+  const count = document.getElementById('rating-count');
   const submitBtn = document.getElementById('submitBtn');
   const resetBtn = document.getElementById('resetBtn');
   const status = document.getElementById('status');
@@ -105,29 +206,24 @@
   const modal = document.getElementById('modal');
   const modalClose = document.getElementById('modalClose');
 
-  // update bubble when slider moves
-  slider.addEventListener('input', ()=> bubble.textContent = slider.value);
+  const SUBMITTED_KEY = 'concert_feedback_submitted';
+  const SUBMITTED_AT_KEY = 'concert_feedback_submitted_at';
 
-  // show current totals (average)
-  async function refreshTotals(){
-    try{
-      const r = await fetch('/api/total');
-      if(!r.ok) throw new Error('no totals');
-      const data = await r.json();
-      const avg = data.totalResponses ? (data.totalRating / data.totalResponses).toFixed(2) : '—';
-      currentInfo.textContent = `Current total points: ${data.totalRating} • Responses: ${data.totalResponses} • Average: ${avg}`;
-    }catch(e){
-      currentInfo.textContent = 'Totals unavailable right now.';
-    }
+  function getSubmitted() {
+    const raw = localStorage.getItem(SUBMITTED_KEY) === 'true';
+    const at = localStorage.getItem(SUBMITTED_AT_KEY);
+    return { submitted: raw, at: at ? new Date(at) : null };
   }
-
-  // store to prevent double immediate submit
-  const STORAGE_KEY = 'concert_feedback_submitted';
-  let submitted = localStorage.getItem(STORAGE_KEY) === 'true';
-
-  function setSubmittedUI(flag){
-    submitted = flag;
-    if(flag){
+  function setSubmittedNow() {
+    localStorage.setItem(SUBMITTED_KEY, 'true');
+    localStorage.setItem(SUBMITTED_AT_KEY, new Date().toISOString());
+  }
+  function clearSubmittedLocal() {
+    localStorage.removeItem(SUBMITTED_KEY);
+    localStorage.removeItem(SUBMITTED_AT_KEY);
+  }
+  function setSubmittedUI(flag) {
+    if(flag) {
       status.textContent = 'You already submitted — thanks!';
       submitBtn.disabled = true;
       submitBtn.style.opacity = 0.6;
@@ -137,17 +233,44 @@
       submitBtn.style.opacity = 1;
     }
   }
-  setSubmittedUI(submitted);
+
+  // Dynamic glow + animation
+  slider.addEventListener('input', () => {
+    const value = Number(slider.value);
+    count.textContent = value;
+    bubble.className = 'rating-bubble';
+    peach.className = 'peach';
+    bubble.classList.add(`glow-${value}`);
+    peach.classList.add(`glow-${value}`, 'pop');
+  });
+
+  async function refreshTotalsAndSyncClient() {
+    try {
+      const r = await fetch('/api/total');
+      if(!r.ok) throw new Error('no totals');
+      const data = await r.json();
+      const avg = data.totalResponses ? (data.totalRating / data.totalResponses).toFixed(2) : '—';
+      currentInfo.textContent = `Current total points: ${data.totalRating} • Responses: ${data.totalResponses} • Average: ${avg}`;
+      const resetAt = data.resetAt ? new Date(data.resetAt) : null;
+      const local = getSubmitted();
+      if(local.submitted && local.at && resetAt && local.at < resetAt) {
+        clearSubmittedLocal();
+        setSubmittedUI(false);
+      } else {
+        setSubmittedUI(local.submitted);
+      }
+    } catch (e) {
+      currentInfo.textContent = 'Totals unavailable right now.';
+    }
+  }
+
+  await refreshTotalsAndSyncClient();
 
   submitBtn.addEventListener('click', async ()=>{
     const rating = Number(slider.value);
-    if(rating < 1 || rating > 10){ alert('Please pick a rating between 1 and 10'); return; }
-
-    // immediate UI lock
+    if(rating < 1 || rating > 10) { alert('Please pick a rating between 1 and 10'); return; }
     submitBtn.disabled = true;
-    submitBtn.style.opacity = 0.6;
     status.textContent = 'Submitting...';
-
     try{
       const res = await fetch('/api/submit', {
         method:'POST',
@@ -155,33 +278,28 @@
         body: JSON.stringify({ rating })
       });
       if(!res.ok) throw new Error('submit failed');
-      // mark submitted locally for this device (prevents accidental double-submits)
-      localStorage.setItem(STORAGE_KEY,'true');
+      setSubmittedNow();
       setSubmittedUI(true);
-
-      // fetch new totals and show modal
-      await refreshTotals();
+      await refreshTotalsAndSyncClient();
       document.getElementById('modalTitle').textContent = 'Thank you!';
       document.getElementById('modalText').textContent = `Your rating (${rating}) was recorded.`;
       modal.style.display = 'block';
-
     }catch(err){
       alert('Could not submit. Please try again.');
       setSubmittedUI(false);
-      console.error(err);
     }
   });
 
   resetBtn.addEventListener('click', ()=>{
-    // allow user to change rating before submitting
-    slider.value = 8; bubble.textContent = 8;
+    slider.value = 8;
+    count.textContent = 8;
+    bubble.className = 'rating-bubble glow-8';
+    peach.className = 'peach glow-8';
   });
 
   modalClose.addEventListener('click', ()=> modal.style.display = 'none');
 
-  // periodically refresh totals so attendees can see running count
-  await refreshTotals();
-  setInterval(refreshTotals, 5000);
+  setInterval(refreshTotalsAndSyncClient, 5000);
 })();
 </script>
 </body>
