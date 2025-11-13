@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
 <title>Rate the Concert 🎵</title>
 
 <style>
@@ -29,28 +30,108 @@
 
   /* ===== LOGO ===== */
   .top-left-logo {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 120px;
-    height: auto;
-    z-index: 1000;
-    opacity: 0.9;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 160px; /* larger for visibility */
+  height: auto;
+  z-index: 1000;
+  background: #ffffff10; /* soft contrast patch */
+  border-radius: 8px;
+  padding: 8px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
 
   .top-left-logo:hover {
-    opacity: 1;
-    transform: scale(1.05);
-  }
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+}
 
-  @media (max-width: 600px) {
-    .top-left-logo {
-      width: 90px;
-      top: 12px;
-      left: 12px;
-    }
+@media (max-width: 600px) {
+  .top-left-logo {
+    width: 120px;
+    top: 12px;
+    left: 12px;
+    padding: 6px;
   }
+}
+/* ===== Top Logo Bar ===== */
+.logo-bar {
+  position: fixed;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 1000;
+}
+
+/* Adjust the logo image */
+.top-left-logo {
+  width: 70px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+/* Neon text beside logo — soft glow + dark outline */
+.neon-text {
+  font-family: "Comic Sans MS","Comic Sans", cursive;
+  font-size: 54px;
+  font-weight: 800;
+  color: #fff27a;
+  letter-spacing: 1px;
+
+  /* Dark outline for clarity */
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.8);
+  text-shadow:
+    0 0 2px rgba(0, 0, 0, 0.8),  /* inner dark halo to reduce smudge */
+    0 0 4px #fff27a,
+    0 0 8px #ffe76b,
+    0 0 12px #ffd84d,
+    0 0 18px #ffec8b;
+
+  animation: gentleGlow 6s infinite ease-in-out;
+  transition: text-shadow 0.5s ease;
+}
+
+/* Smooth, slow glow animation */
+@keyframes gentleGlow {
+  0%, 100% {
+    text-shadow:
+      0 0 2px rgba(0, 0, 0, 0.8),
+      0 0 6px #fff27a,
+      0 0 10px #ffe76b,
+      0 0 18px #ffd84d,
+      0 0 24px #ffec8b;
+    opacity: 1;
+  }
+  50% {
+    text-shadow:
+      0 0 2px rgba(0, 0, 0, 0.8),
+      0 0 4px #fff27a,
+      0 0 8px #ffe76b,
+      0 0 14px #ffd84d;
+    opacity: 0.9;
+  }
+}
+
+/* Responsive scaling */
+@media (max-width: 600px) {
+  .neon-text {
+    font-size: 22px;
+    -webkit-text-stroke: 0.6px rgba(0, 0, 0, 0.8);
+  }
+  .top-left-logo {
+    width: 50px;
+  }
+}
+
+
 
   /* ===== CARD ===== */
   .card {
@@ -177,7 +258,12 @@
 
 <body>
   <!-- Top-left Logo -->
-  <img src="/Users/sayantan_banerjee/Documents/Friend's-projects/Rahul/concert-feedback/public/images/logo.jpeg" alt="Nonsane-sible logo" class="top-left-logo" />
+  <img src="/images/logo.png" alt="Nonsane-sible logo" class="top-left-logo" />
+  <!-- Top logo area -->
+    <div class="logo-bar">
+        <h1 class="neon-text">NONSANE-sible</h1>
+    </div>
+
 
   <div class="card">
     <header>
