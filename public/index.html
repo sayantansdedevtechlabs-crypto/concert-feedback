@@ -29,108 +29,91 @@
   }
 
   /* ===== LOGO ===== */
-  .top-left-logo {
+  /* Brand container */
+.brand-bar {
   position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 160px; /* larger for visibility */
-  height: auto;
-  z-index: 1000;
-  background: #ffffff10; /* soft contrast patch */
-  border-radius: 8px;
-  padding: 8px;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
-  opacity: 1;
-  transition: all 0.3s ease;
-}
-
-  .top-left-logo:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
-}
-
-@media (max-width: 600px) {
-  .top-left-logo {
-    width: 120px;
-    top: 12px;
-    left: 12px;
-    padding: 6px;
-  }
-}
-/* ===== Top Logo Bar ===== */
-.logo-bar {
-  position: fixed;
-  top: 120px;
+  top: 50px;
   left: 50%;
   transform: translateX(-50%);
+
   display: flex;
   align-items: center;
-  gap: 14px;
-  z-index: 1000;
+  justify-content: center;
+
+  gap: 12px;
+  padding: 6px 14px;
+
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.25); /* subtle iOS-visible backdrop */
+  border-radius: 12px;
+  backdrop-filter: blur(8px); /* iOS Safari compatible */
 }
 
-/* Adjust the logo image */
-.top-left-logo {
-  width: 70px;
+/* Logo */
+.brand-logo {
+  width: 100px;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+
+  box-shadow: 0 0 6px rgba(0,0,0,0.5);
 }
 
-/* Neon text beside logo — soft glow + dark outline */
+/* Neon text */
 .neon-text {
-  font-family: "Comic Sans MS","Comic Sans", cursive;
-  font-size: 54px;
-  font-weight: 800;
-  color: #fff27a;
-  letter-spacing: 1px;
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
 
-  /* Dark outline for clarity */
-  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.8);
+  color: #fff56e;
+  -webkit-text-stroke: 1px rgba(0,0,0,0.7);
+
   text-shadow:
-    0 0 2px rgba(0, 0, 0, 0.8),  /* inner dark halo to reduce smudge */
-    0 0 4px #fff27a,
-    0 0 8px #ffe76b,
-    0 0 12px #ffd84d,
-    0 0 18px #ffec8b;
+    0 0 2px rgba(0,0,0,0.7),
+    0 0 6px #fff56e,
+    0 0 12px #ffe66b,
+    0 0 18px #ffd84d;
 
-  animation: gentleGlow 6s infinite ease-in-out;
-  transition: text-shadow 0.5s ease;
+  animation: glowSoft 5s infinite ease-in-out;
 }
 
-/* Smooth, slow glow animation */
-@keyframes gentleGlow {
+/* Glow animation */
+@keyframes glowSoft {
   0%, 100% {
-    text-shadow:
-      0 0 2px rgba(0, 0, 0, 0.8),
-      0 0 6px #fff27a,
-      0 0 10px #ffe76b,
-      0 0 18px #ffd84d,
-      0 0 24px #ffec8b;
     opacity: 1;
+    text-shadow:
+      0 0 2px rgba(0,0,0,0.7),
+      0 0 8px #fff56e,
+      0 0 14px #ffe66b,
+      0 0 22px #ffd84d;
   }
   50% {
+    opacity: 0.85;
     text-shadow:
-      0 0 2px rgba(0, 0, 0, 0.8),
-      0 0 4px #fff27a,
-      0 0 8px #ffe76b,
-      0 0 14px #ffd84d;
-    opacity: 0.9;
+      0 0 2px rgba(0,0,0,0.7),
+      0 0 5px #fff56e,
+      0 0 10px #ffe66b;
   }
 }
 
-/* Responsive scaling */
+/* Mobile adjustments */
 @media (max-width: 600px) {
-  .neon-text {
-    font-size: 22px;
-    -webkit-text-stroke: 0.6px rgba(0, 0, 0, 0.8);
+  .brand-bar {
+    top: 6px;
+    padding: 4px 10px;
+    gap: 8px;
   }
-  .top-left-logo {
-    width: 50px;
+
+  .brand-logo {
+    width: 40px;
+  }
+
+  .neon-text {
+    font-size: 20px;
+    letter-spacing: 1px;
   }
 }
-
 
 
   /* ===== CARD ===== */
@@ -258,12 +241,10 @@
 
 <body>
   <!-- Top-left Logo -->
-  <img src="/images/logo.png" alt="Nonsane-sible logo" class="top-left-logo" />
-  <!-- Top logo area -->
-    <div class="logo-bar">
+    <div class="brand-bar">
+        <img src="/images/logo.png" class="brand-logo" alt="Nonsane-sible logo" />
         <h1 class="neon-text">NONSANE-sible</h1>
     </div>
-
 
   <div class="card">
     <header>
