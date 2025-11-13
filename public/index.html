@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
 <title>Rate the Concert 🎵</title>
 
 <style>
@@ -29,92 +28,29 @@
   }
 
   /* ===== LOGO ===== */
-  /* Brand container */
-.brand-bar {
-  position: fixed;
-  top: 50px;
-  left: 50%;
-  transform: translateX(-50%);
+  .top-left-logo {
+    position: fixed;
+    top: 50px;
+    left: 650px;
+    width: 150px;
+    height: auto;
+    z-index: 1000;
+    opacity: 0.9;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 12px;
-  padding: 6px 14px;
-
-  z-index: 2000;
-  background: rgba(0, 0, 0, 0.25); /* subtle iOS-visible backdrop */
-  border-radius: 12px;
-  backdrop-filter: blur(8px); /* iOS Safari compatible */
-}
-
-/* Logo */
-.brand-logo {
-  width: 100px;
-  height: auto;
-  border-radius: 8px;
-  flex-shrink: 0;
-
-  box-shadow: 0 0 6px rgba(0,0,0,0.5);
-}
-
-/* Neon text */
-.neon-text {
-  font-family: "Comic Sans MS";
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-
-  color: #fff241;
-  -webkit-text-stroke: 1px rgba(0,0,0,0.7);
-
-  text-shadow:
-    0 0 2px rgba(0,0,0,0.7),
-    0 0 6px #fff56e,
-    0 0 12px #ffe66b,
-    0 0 18px #ffd84d;
-
-  animation: glowSoft 0.5s infinite ease-in-out;
-}
-
-/* Glow animation */
-@keyframes glowSoft {
-  0%, 100% {
+  .top-left-logo:hover {
     opacity: 1;
-    text-shadow:
-      0 0 2px rgba(0,0,0,0.7),
-      0 0 8px #fff56e,
-      0 0 14px #ffe66b,
-      0 0 22px #ffd84d;
-  }
-  50% {
-    opacity: 0.85;
-    text-shadow:
-      0 0 2px rgba(0,0,0,0.7),
-      0 0 5px #fff56e,
-      0 0 10px #ffe66b;
-  }
-}
-
-/* Mobile adjustments */
-@media (max-width: 600px) {
-  .brand-bar {
-    top: 20px;
-    padding: 4px 10px;
-    gap: 8px;
+    transform: scale(1.05);
   }
 
-  .brand-logo {
-    width: 40px;
+  @media (max-width: 600px) {
+    .top-left-logo {
+      width: 90px;
+      top: 12px;
+      left: 12px;
+    }
   }
-
-  .neon-text {
-    font-size: 20px;
-    letter-spacing: 1px;
-  }
-}
-
 
   /* ===== CARD ===== */
   .card {
@@ -130,9 +66,9 @@
   header { display: flex; gap: 12px; align-items: center; }
   .logo {
     width: 56px; height: 56px; border-radius: 10px;
-    background: linear-gradient(135deg, var(--accent), #ff9a9a);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; color: #071220; font-size: 18px;
+    background: linear-gradient(135deg, var(--accent), #e8cfcf);
+    display: flex; align-items: center; justify-content: center; 
+    font-weight: 100px; color: #071220; font-size: 18px;
   }
   h1 { margin: 0; font-size: 20px; }
   p.lead { margin: 6px 0 18px; color: var(--muted); }
@@ -241,16 +177,13 @@
 
 <body>
   <!-- Top-left Logo -->
-    <div class="brand-bar">
-        <img src="/images/logo.png" class="brand-logo" alt="Nonsane-sible logo" />
-        <h1 class="neon-text">NONSANE-sible</h1>
-    </div>
+  <img src="/images/logo.png" alt="Nonsane-sible logo" class="top-left-logo" />
 
   <div class="card">
     <header>
-      <div class="logo">🎵</div>
+      <div class="logo">🫦</div>
       <div>
-        <h1>Juicy Points 💦 </h1>
+        <h1>Juicy Points!! 💦 </h1>
         <p class="lead">Slide to pick a rating from 1 to 10. Quick and anonymous.</p>
       </div>
     </header>
