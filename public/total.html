@@ -4,29 +4,111 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Feedback Summary — Live</title>
-<style>
-  :root{--bg:#061022;--card:#071828;--accent:#45f3c4;--muted:#9ab0c4}
-  *{box-sizing:border-box}
-  body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto; background:linear-gradient(180deg,#031226,#061022);color:#ecfeff;display:flex;align-items:center;justify-content:center;padding:18px}
-  .wrap{width:100%;max-width:1100px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:28px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 18px 60px rgba(0,0,0,0.55)}
-  header{display:flex;align-items:center;gap:16px;justify-content:space-between}
-  h1{margin:0;font-size:28px}
-  .subtitle{color:var(--muted);font-size:14px}
-  .stats{display:flex;gap:20px;margin-top:28px;flex-wrap:wrap}
-  .stat{
-    flex:1 1 220px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
-    border-radius:12px;padding:18px;text-align:center;border:1px solid rgba(255,255,255,0.02)
-  }
-  .big{font-size:44px;font-weight:800;color:var(--accent);margin-top:8px}
-  .small{font-size:14px;color:var(--muted);margin-top:6px}
-  .controls{display:flex;gap:12px;margin-top:18px}
-  button{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
-  button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
-  .center{display:flex;align-items:center;justify-content:center}
 
-  @media (max-width:640px){ .big{font-size:34px} .stat{flex:1 1 140px} }
+<style>
+  :root {
+    --bg:#061022;
+    --card:#071828;
+    --accent:#45f3c4;
+    --muted:#9ab0c4;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Inter,system-ui,-apple-system,'Segoe UI',Roboto;
+    background: linear-gradient(180deg,#031226,#061022);
+    color:#ecfeff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:18px;
+  }
+
+  .wrap {
+    width:100%;
+    max-width:1100px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:16px;
+    padding:28px;
+    border:1px solid rgba(255,255,255,0.03);
+    box-shadow:0 18px 60px rgba(0,0,0,0.55);
+  }
+
+  header {
+    display:flex;
+    align-items:center;
+    gap:16px;
+    justify-content:space-between;
+  }
+
+  h1 { margin:0; font-size:28px; }
+  .subtitle { color:var(--muted); font-size:14px; }
+
+  .stats {
+    display:flex;
+    gap:20px;
+    margin-top:28px;
+    flex-wrap:wrap;
+  }
+
+  .stat {
+    flex:1 1 220px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    border-radius:12px;
+    padding:18px;
+    text-align:center;
+    border:1px solid rgba(255,255,255,0.02);
+  }
+
+  .big {
+    font-size:44px;
+    font-weight:800;
+    color:var(--accent);
+    margin-top:8px;
+  }
+
+  .small {
+    font-size:14px;
+    color:var(--muted);
+    margin-top:6px;
+  }
+
+  .controls {
+    display:flex;
+    gap:12px;
+    margin-top:20px;
+    flex-wrap:wrap;
+  }
+
+  button {
+    padding:10px 14px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    font-weight:700;
+  }
+
+  button.secondary {
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.04);
+    color:var(--muted);
+  }
+
+  .center {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  @media (max-width:640px) {
+    .big { font-size:34px; }
+    .stat { flex:1 1 140px; }
+  }
 </style>
 </head>
+
 <body>
   <div class="wrap" role="main">
     <header>
@@ -34,10 +116,14 @@
         <h1>Live Feedback Summary</h1>
         <div class="subtitle">Total points and live average — auto-refreshing</div>
       </div>
+
       <div class="center">
         <div style="text-align:right">
           <div style="font-size:12px;color:var(--muted)">Last updated</div>
           <div id="last" style="font-weight:700">—</div>
+
+          <div style="font-size:12px;color:var(--muted);margin-top:4px">Reset at</div>
+          <div id="resetVal" style="font-weight:700">—</div>
         </div>
       </div>
     </header>
@@ -62,7 +148,7 @@
       </div>
     </div>
 
-    <div class="controls" style="margin-top:20px">
+    <div class="controls">
       <button id="refreshBtn">Refresh now</button>
       <button id="pauseBtn" class="secondary">Pause auto-refresh</button>
       <button id="resetBtn" class="secondary">Reset totals (dev only)</button>
@@ -75,6 +161,7 @@
   const responsesEl = document.getElementById('responses');
   const averageEl = document.getElementById('average');
   const lastEl = document.getElementById('last');
+  const resetVal = document.getElementById('resetVal');
   const refreshBtn = document.getElementById('refreshBtn');
   const pauseBtn = document.getElementById('pauseBtn');
   const resetBtn = document.getElementById('resetBtn');
@@ -82,68 +169,97 @@
   let auto = true;
   let interval = null;
 
-  function formatNumber(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+  function formatNumber(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
-  async function fetchTotals(animated=true){
-    try{
+  async function fetchTotals(animated = true) {
+    try {
       const res = await fetch('/api/total');
-      if(!res.ok) throw new Error('failed');
+      if (!res.ok) throw new Error('failed');
       const d = await res.json();
+
       const avg = d.totalResponses ? (d.totalRating / d.totalResponses).toFixed(2) : '—';
-      // animate simple numeric change
-      if(animated){
-        // quick tween for each numeric field
+
+      // animated number change
+      if (animated) {
         animateNumber(totalPointsEl, d.totalRating, 600);
         animateNumber(responsesEl, d.totalResponses, 600);
       } else {
         totalPointsEl.textContent = formatNumber(d.totalRating);
         responsesEl.textContent = formatNumber(d.totalResponses);
       }
+
       averageEl.textContent = avg;
       lastEl.textContent = new Date().toLocaleTimeString();
-    }catch(err){
+      resetVal.textContent = d.resetAt ? new Date(d.resetAt).toLocaleTimeString() : "—";
+
+    } catch (err) {
       console.error(err);
       lastEl.textContent = 'error';
     }
   }
 
-  // tiny numeric animator
-  function animateNumber(el, newVal, duration=700){
-    const start = Number(el.textContent.replace(/,/g,'')) || 0;
+  // Number animation
+  function animateNumber(el, newVal, duration = 700) {
+    const start = Number(el.textContent.replace(/,/g, '')) || 0;
     const end = Number(newVal) || 0;
     const startTime = performance.now();
-    function step(now){
+
+    function step(now) {
       const t = Math.min(1, (now - startTime) / duration);
       const val = Math.round(start + (end - start) * easeOutCubic(t));
       el.textContent = formatNumber(val);
-      if(t < 1) requestAnimationFrame(step);
+      if (t < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
   }
-  function easeOutCubic(x){ return 1 - Math.pow(1 - x, 3); }
 
-  refreshBtn.addEventListener('click', ()=> fetchTotals(true));
-  pauseBtn.addEventListener('click', ()=>{
+  function easeOutCubic(x) {
+    return 1 - Math.pow(1 - x, 3);
+  }
+
+  refreshBtn.addEventListener('click', () => fetchTotals(true));
+
+  pauseBtn.addEventListener('click', () => {
     auto = !auto;
-    if(auto){ startAuto(); pauseBtn.textContent = 'Pause auto-refresh'; pauseBtn.classList.remove('active') }
-    else { stopAuto(); pauseBtn.textContent = 'Resume auto-refresh' }
+    if (auto) {
+      startAuto();
+      pauseBtn.textContent = 'Pause auto-refresh';
+      pauseBtn.classList.remove('active');
+    } else {
+      stopAuto();
+      pauseBtn.textContent = 'Resume auto-refresh';
+    }
   });
 
-  // Optional: Reset endpoint exists only if backend supports it (dev only)
-  resetBtn.addEventListener('click', async ()=>{
-    if(!confirm('Reset totals? This is meant for development only.')) return;
-    try{
-      // Attempt to call a reset route — if not present, fallback to alert
-      const r = await fetch('/api/reset', { method:'POST' });
-      if(r.ok){ alert('Reset performed.'); fetchTotals(true); }
-      else alert('Reset route not available on server.');
-    }catch(e){ alert('Reset failed.'); }
+  // Reset totals button (backend must support /api/reset)
+  resetBtn.addEventListener('click', async () => {
+    if (!confirm('Reset totals? This is meant for development only.')) return;
+    try {
+      const r = await fetch('/api/reset', { method: 'POST' });
+      if (r.ok) {
+        alert('Reset performed.');
+        fetchTotals(true);
+      } else {
+        alert('Reset route not available on server.');
+      }
+    } catch (e) {
+      alert('Reset failed.');
+    }
   });
 
-  function startAuto(){ if(interval) clearInterval(interval); interval = setInterval(()=>fetchTotals(true), 4000) }
-  function stopAuto(){ if(interval) clearInterval(interval); interval = null }
+  function startAuto() {
+    if (interval) clearInterval(interval);
+    interval = setInterval(() => fetchTotals(true), 4000);
+  }
 
-  // start
+  function stopAuto() {
+    if (interval) clearInterval(interval);
+    interval = null;
+  }
+
+  // Start
   await fetchTotals(false);
   startAuto();
 })();

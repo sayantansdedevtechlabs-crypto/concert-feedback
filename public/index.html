@@ -27,29 +27,75 @@
     padding: 24px;
   }
 
-  /* ===== LOGO ===== */
-  .top-left-logo {
+  /* ===== Brand bar (logo + name) ===== */
+  .brand-bar {
     position: fixed;
-    top: 50px;
-    left: 650px;
-    width: 150px;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 12px;
+    z-index: 2000;
+    background: rgba(0,0,0,0.18);
+    border-radius: 10px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.4);
+  }
+
+  .brand-logo {
+    width: 52px;
     height: auto;
-    z-index: 1000;
-    opacity: 0.9;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    border-radius: 8px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.5);
   }
 
-  .top-left-logo:hover {
-    opacity: 1;
-    transform: scale(1.05);
+  /* Comic Sans neon-style text */
+  .neon-text {
+    font-family: "Comic Sans MS", "Comic Sans", cursive;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #fff56e;
+    -webkit-text-stroke: 1px rgba(0,0,0,0.9);
+    text-shadow:
+      0 0 2px rgba(0,0,0,0.8),
+      0 0 6px #fff56e,
+      0 0 12px #ffe66b,
+      0 0 20px #ffdb4d;
+    animation: comicGlow 6s infinite ease-in-out;
+    transition: transform 0.25s ease;
   }
 
-  @media (max-width: 600px) {
-    .top-left-logo {
-      width: 90px;
-      top: 50px;
-      left: 100px;
+  .neon-text:hover {
+    transform: scale(1.03) translateY(-1px);
+  }
+
+  @keyframes comicGlow {
+    0%, 100% {
+      text-shadow:
+        0 0 2px rgba(0,0,0,0.8),
+        0 0 8px #fff56e,
+        0 0 14px #ffe66b,
+        0 0 22px #ffd84d;
+      opacity: 1;
     }
+    50% {
+      text-shadow:
+        0 0 2px rgba(0,0,0,0.8),
+        0 0 5px #fff56e,
+        0 0 10px #ffe66b;
+      opacity: 0.92;
+    }
+  }
+
+  @media (max-width:600px) {
+    .neon-text { font-size: 18px; letter-spacing: 1px; }
+    .brand-logo { width: 40px; }
+    .brand-bar { top: 6px; padding: 4px 8px; gap: 8px; }
   }
 
   /* ===== CARD ===== */
@@ -68,7 +114,7 @@
     width: 56px; height: 56px; border-radius: 10px;
     background: linear-gradient(135deg, var(--accent), #e8cfcf);
     display: flex; align-items: center; justify-content: center; 
-    font-weight: 100px; color: #071220; font-size: 18px;
+    font-weight: 700; color: #071220; font-size: 18px;
   }
   h1 { margin: 0; font-size: 20px; }
   p.lead { margin: 6px 0 18px; color: var(--muted); }
@@ -102,11 +148,7 @@
     transition: transform 0.2s ease, box-shadow 0.4s ease;
   }
 
-  .peach {
-    font-size: 54px;
-    line-height: 1;
-    transition: filter 0.4s ease;
-  }
+  .peach { font-size: 54px; line-height: 1; transition: filter 0.4s ease; }
 
   .rating-count {
     position: absolute;
@@ -132,58 +174,43 @@
   .glow-9  { box-shadow: 0 0 26px rgba(255, 235, 160, 1);   filter: drop-shadow(0 0 20px rgba(255, 235, 160, 1)); }
   .glow-10 { box-shadow: 0 0 30px rgba(255, 255, 180, 1);   filter: drop-shadow(0 0 24px rgba(255, 255, 180, 1)); }
 
-  @keyframes pop {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-  }
+  @keyframes pop { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
   .peach.pop { animation: pop 0.4s ease; }
 
   /* ===== BUTTONS ===== */
   .controls { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
-  button {
-    padding: 10px 18px;
-    border-radius: 10px;
-    border: none;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
+  button { padding: 10px 18px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; transition: background 0.3s ease, transform 0.2s ease; }
   button:hover { transform: translateY(-2px); }
-  button.primary {
-    background: linear-gradient(180deg, var(--accent), #ff8a8a);
-    color: #071220;
-  }
-  button.secondary {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.1);
-    color: var(--muted);
-  }
+  button.primary { background: linear-gradient(180deg, var(--accent), #ff8a8a); color: #071220; }
+  button.secondary { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--muted); }
 
   .muted { color: var(--muted); font-size: 14px; margin-top: 12px; }
 
   .modal {
-    position: fixed;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    background: #081224;
-    padding: 18px;
-    border-radius: 12px;
-    text-align: center;
-    border: 1px solid rgba(255,255,255,0.1);
-    display: none;
+    position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    background: #081224; padding: 18px; border-radius: 12px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.1); display: none;
+  }
+
+  @media (max-width:480px) {
+    .rating-bubble { width: 56px; height: 56px; }
+    .peach { font-size: 46px; }
   }
 </style>
 </head>
 
 <body>
-  <!-- Top-left Logo -->
-  <img src="/images/logo.png" alt="Nonsane-sible logo" class="top-left-logo" />
+  <!-- Brand bar (center top) -->
+  <div class="brand-bar" role="banner">
+    <img src="/images/logo.png" alt="Nonsane-sible logo" class="brand-logo" />
+    <div class="neon-text">NONSANE-sible</div>
+  </div>
 
-  <div class="card">
+  <div class="card" role="main" aria-labelledby="pageTitle">
     <header>
       <div class="logo">🫦</div>
       <div>
-        <h1>Juicy Points!! 💦 </h1>
+        <h1 id="pageTitle">Juicy Points!! 💦 </h1>
         <p class="lead">Slide to pick a rating from 1 to 10. Quick and anonymous.</p>
       </div>
     </header>
@@ -209,7 +236,7 @@
   </div>
 
   <!-- Modal -->
-  <div id="modal" class="modal">
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
     <div style="font-size:22px;font-weight:700;margin-bottom:6px" id="modalTitle">Thanks!</div>
     <div class="muted" id="modalText">Your rating has been recorded.</div>
     <div style="height:12px"></div>
@@ -257,14 +284,22 @@
     }
   }
 
+  // Initialize bubble value visual
+  count.textContent = slider.value;
+  bubble.className = 'rating-bubble glow-' + slider.value;
+  peach.className = 'peach glow-' + slider.value;
+
   // Dynamic glow + animation
   slider.addEventListener('input', () => {
     const value = Number(slider.value);
     count.textContent = value;
+    // reset classes then add glow/pop
     bubble.className = 'rating-bubble';
     peach.className = 'peach';
     bubble.classList.add(`glow-${value}`);
     peach.classList.add(`glow-${value}`, 'pop');
+    // remove pop after animation so it can trigger again
+    setTimeout(()=> peach.classList.remove('pop'), 420);
   });
 
   async function refreshTotalsAndSyncClient() {
@@ -274,9 +309,13 @@
       const data = await r.json();
       const avg = data.totalResponses ? (data.totalRating / data.totalResponses).toFixed(2) : '—';
       currentInfo.textContent = `Current total points: ${data.totalRating} • Responses: ${data.totalResponses} • Average: ${avg}`;
-      const resetAt = data.resetAt ? new Date(data.resetAt) : null;
+
+      // FIX: if server didn't provide resetAt, use epoch so client treats it as reset (safe)
+      const resetAt = data.resetAt ? new Date(data.resetAt) : new Date(0);
+
       const local = getSubmitted();
-      if(local.submitted && local.at && resetAt && local.at < resetAt) {
+      if (local.submitted && local.at && local.at < resetAt) {
+        // user's submission happened before server reset — clear local state
         clearSubmittedLocal();
         setSubmittedUI(false);
       } else {
@@ -284,10 +323,13 @@
       }
     } catch (e) {
       currentInfo.textContent = 'Totals unavailable right now.';
+      console.error(e);
     }
   }
 
+  // initial refresh + periodic refresh
   await refreshTotalsAndSyncClient();
+  setInterval(refreshTotalsAndSyncClient, 5000);
 
   submitBtn.addEventListener('click', async ()=>{
     const rating = Number(slider.value);
@@ -301,19 +343,23 @@
         body: JSON.stringify({ rating })
       });
       if(!res.ok) throw new Error('submit failed');
+      // mark submitted with timestamp
       setSubmittedNow();
       setSubmittedUI(true);
+      // refresh totals (and sync resetAt)
       await refreshTotalsAndSyncClient();
       document.getElementById('modalTitle').textContent = 'Thank you!';
       document.getElementById('modalText').textContent = `Your rating (${rating}) was recorded.`;
       modal.style.display = 'block';
     }catch(err){
       alert('Could not submit. Please try again.');
+      console.error(err);
       setSubmittedUI(false);
     }
   });
 
   resetBtn.addEventListener('click', ()=>{
+    // UI-only reset for changing selection before submit
     slider.value = 8;
     count.textContent = 8;
     bubble.className = 'rating-bubble glow-8';
@@ -322,7 +368,6 @@
 
   modalClose.addEventListener('click', ()=> modal.style.display = 'none');
 
-  setInterval(refreshTotalsAndSyncClient, 5000);
 })();
 </script>
 </body>
